@@ -80,7 +80,7 @@ function animate() {
   cube.rotation.y += 0.01;
   plane.rotation.x += 0.01;
   plane.rotation.y += 0.01;
-  // orbitControls.update();
+  orbitControls.update();
   renderer.render(scene, perspectiveCamera);
 
   requestAnimationFrame(animate);
@@ -88,4 +88,3 @@ function animate() {
 
 window.scene = scene;
 requestAnimationFrame(animate);
-console.log(perspectiveCamera.position);
