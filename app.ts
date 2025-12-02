@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { TrackballControls } from 'three/addons/controls/TrackballControls.js';
 
 declare global {
   interface Window {
@@ -12,8 +12,7 @@ const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 const perspectiveCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const scene = new THREE.Scene();
 
-const orbitControls = new OrbitControls(perspectiveCamera, canvas);
-orbitControls.enableDamping = true;
+const orbitControls = new TrackballControls(perspectiveCamera, canvas);
 
 // Axes
 const xAxisPoints = [new THREE.Vector3(-1000, 0, 0), new THREE.Vector3(1000, 0, 0)];
