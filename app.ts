@@ -1,9 +1,19 @@
 import * as THREE from "three";
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+declare global {
+  interface Window {
+    scene: THREE.Scene;
+  }
+}
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
 const perspectiveCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const scene = new THREE.Scene();
+
+const orbitControls = new OrbitControls(perspectiveCamera, canvas);
+orbitControls.enableDamping = true;
 
 // Axes
 const xAxisPoints = [new THREE.Vector3(-1000, 0, 0), new THREE.Vector3(1000, 0, 0)];
@@ -32,6 +42,16 @@ cube.position.y = 10;
 const light = new THREE.DirectionalLight(0xffffff, 1);
 light.position.set(50, 50, 50);
 
+// Axes Helper
+const cubeAxes = new THREE.AxesHelper();
+cubeAxes.material.depthTest = false;
+cube.add(cubeAxes);
+
+const planeAxes = new THREE.AxesHelper();
+planeAxes.material.depthTest = false;
+plane.add(planeAxes);
+
+// Grid helper
 const axisGrid = new THREE.GridHelper(100, 100);
 axisGrid.material.depthTest = false;
 axisGrid.rotation.x = Math.PI / 2;
@@ -53,23 +73,19 @@ const renderer = new THREE.WebGLRenderer({
 
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
-// renderer.render(scene, perspectiveCamera);
+renderer.render(scene, perspectiveCamera);
 
 function animate() {
-  const cubeAxes = new THREE.AxesHelper();
-  cubeAxes.material.depthTest = false;
   cube.rotation.x += 0.01;
   cube.rotation.y += 0.01;
-  cube.add(cubeAxes);
-  const planeAxes = new THREE.AxesHelper();
-  planeAxes.renderOrder = 1;
-  planeAxes.material.depthTest = false;
   plane.rotation.x += 0.01;
   plane.rotation.y += 0.01;
-  plane.add(planeAxes);
+  // orbitControls.update();
   renderer.render(scene, perspectiveCamera);
+
   requestAnimationFrame(animate);
 }
 
+window.scene = scene;
 requestAnimationFrame(animate);
 console.log(perspectiveCamera.position);
